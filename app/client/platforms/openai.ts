@@ -162,6 +162,12 @@ export class ChatGPTApi implements LLMApi {
           if (finished || controller.signal.aborted) {
             responseText += remainText;
             console.log("[Response Animation] finished");
+            window.postMessage(
+              {
+                type: "chat-input",
+              },
+              "*",
+            );
             return;
           }
 

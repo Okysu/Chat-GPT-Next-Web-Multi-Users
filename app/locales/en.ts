@@ -9,8 +9,8 @@ const en: LocaleType = {
   WIP: "Coming Soon...",
   Error: {
     Unauthorized: isApp
-      ? "Invalid API Key, please check it in [Settings](/#/settings) page."
-      : "Unauthorized access, please enter access code in [auth](/#/auth) page, or enter your OpenAI API Key.",
+      ? "Invalid API Key detected. Please go to the [Settings](/#/settings) page to check if the API Key is configured correctly or [login/register](/#/login) for login and registration."
+      : "Incorrect or empty access password. Please go to the [Login](/#/auth) page to enter the correct access password or [login/register](/#/login) for login and registration.",
   },
   Auth: {
     Title: "Need Access Code",
@@ -22,6 +22,22 @@ const en: LocaleType = {
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} messages`,
+  },
+  User: {
+    Recharge: "Recharge",
+    History: "History",
+    RedeemCode: "Redeem",
+    Login: "Login/Sign Up",
+    Logout: "Logout",
+    SendCode: "Send Code",
+    RedeemSuccess: "Redeem Success",
+    RedeemFailed: "Redeem Failed",
+    RedeemConfirm: "Confirm to redeem?",
+  },
+  Wallet: {
+    Tips: "Use GPT4 series models once every 30 points, and using plugins will consume an additional 3 points.",
+    History: "The history only shows the latest 10 records.",
+    Left: "Current Credits",
   },
   Chat: {
     SubTitle: (count: number) => `${count} messages`,

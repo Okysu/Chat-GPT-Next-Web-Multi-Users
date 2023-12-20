@@ -1,6 +1,11 @@
 import { getClientConfig } from "../config/client";
 import { ACCESS_CODE_PREFIX, Azure, ServiceProvider } from "../constant";
-import { ChatMessage, ModelType, useAccessStore } from "../store";
+import {
+  ChatMessage,
+  ModelType,
+  useAccessStore,
+  useUserConfig,
+} from "../store";
 import { ChatGPTApi } from "./platforms/openai";
 import { FileApi } from "./platforms/utils";
 
@@ -155,6 +160,7 @@ export const api = new ClientApi();
 
 export function getAuthHeaders() {
   const accessStore = useAccessStore.getState();
+  const userConfig = useUserConfig.getState();
   const headers: Record<string, string> = {};
 
   const isAzure = accessStore.provider === ServiceProvider.Azure;
@@ -175,12 +181,17 @@ export function getAuthHeaders() {
       ACCESS_CODE_PREFIX + accessStore.accessCode,
     );
   }
+  // check use is logged in
+  else if (userConfig.isUserLoggedIn()) {
+    headers[authHeader] = makeBearer(userConfig.token ?? "");
+  }
 
   return headers;
 }
 
 export function getHeaders() {
   const accessStore = useAccessStore.getState();
+  const userConfig = useUserConfig.getState();
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     "x-requested-with": "XMLHttpRequest",
@@ -203,6 +214,10 @@ export function getHeaders() {
     headers[authHeader] = makeBearer(
       ACCESS_CODE_PREFIX + accessStore.accessCode,
     );
+  }
+  // check use is logged in
+  else if (userConfig.isUserLoggedIn()) {
+    headers[authHeader] = makeBearer(userConfig.token ?? "");
   }
 
   return headers;

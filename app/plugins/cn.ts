@@ -42,28 +42,28 @@ export const CN_PLUGINS: BuiltinPlugin[] = [
     enable: false,
     onlyNodeRuntime: false,
   },
-  {
-    name: "DALL·E",
-    toolName: "dalle_image_generator",
-    lang: "cn",
-    description:
-      "DALL·E 可以根据自然语言的描述创建逼真的图像和艺术。使用本插件需要配置 Cloudflare R2 对象存储服务。",
-    builtin: true,
-    createdAt: 1694703673000,
-    enable: false,
-    onlyNodeRuntime: false,
-  },
-  {
-    name: "Stable Diffusion",
-    toolName: "stable_diffusion_image_generator",
-    lang: "cn",
-    description:
-      "Stable Diffusion 图像生成模型。使用本插件需要配置 Cloudflare R2 对象存储服务以及 stable-diffusion-webui 接口。",
-    builtin: true,
-    createdAt: 1688899480510,
-    enable: false,
-    onlyNodeRuntime: false,
-  },
+  // {
+  //   name: "DALL·E",
+  //   toolName: "dalle_image_generator",
+  //   lang: "cn",
+  //   description:
+  //     "DALL·E 可以根据自然语言的描述创建逼真的图像和艺术。使用本插件需要配置 Cloudflare R2 对象存储服务。",
+  //   builtin: true,
+  //   createdAt: 1694703673000,
+  //   enable: false,
+  //   onlyNodeRuntime: false,
+  // },
+  // {
+  //   name: "Stable Diffusion",
+  //   toolName: "stable_diffusion_image_generator",
+  //   lang: "cn",
+  //   description:
+  //     "Stable Diffusion 图像生成模型。使用本插件需要配置 Cloudflare R2 对象存储服务以及 stable-diffusion-webui 接口。",
+  //   builtin: true,
+  //   createdAt: 1688899480510,
+  //   enable: false,
+  //   onlyNodeRuntime: false,
+  // },
   {
     name: "Arxiv",
     toolName: "arxiv",

@@ -7,7 +7,7 @@ async function handle(req: NextRequest) {
     return NextResponse.json({ body: "OK" }, { status: 200 });
   }
 
-  const authResult = auth(req);
+  const authResult = await auth(req);
   if (authResult.error) {
     return NextResponse.json(authResult, {
       status: 401,

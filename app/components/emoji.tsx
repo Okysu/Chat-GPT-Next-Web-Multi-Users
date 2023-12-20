@@ -28,7 +28,11 @@ export function AvatarPicker(props: {
   );
 }
 
-export function Avatar(props: { model?: ModelType; avatar?: string }) {
+export function Avatar(props: {
+  model?: ModelType;
+  avatar?: string;
+  size?: number;
+}) {
   if (props.model) {
     return (
       <div className="no-dark">
@@ -43,7 +47,7 @@ export function Avatar(props: { model?: ModelType; avatar?: string }) {
 
   return (
     <div className="user-avatar">
-      {props.avatar && <EmojiAvatar avatar={props.avatar} />}
+      {props.avatar && <EmojiAvatar size={props.size} avatar={props.avatar} />}
     </div>
   );
 }

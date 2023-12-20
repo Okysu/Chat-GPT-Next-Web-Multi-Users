@@ -26,9 +26,12 @@ import {
 import { SideBar } from "./sidebar";
 import { useAppConfig } from "../store/config";
 import { AuthPage } from "./auth";
+import { Login } from "./login";
 import { getClientConfig } from "../config/client";
 import { api } from "../client/api";
 import { useAccessStore } from "../store";
+import { History } from "./history";
+import { Redeem } from "./redeem";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -132,7 +135,8 @@ function Screen() {
   const isHome = location.pathname === Path.Home;
   const isAuth = location.pathname === Path.Auth;
   const isMobileScreen = useMobileScreen();
-  const shouldTightBorder = getClientConfig()?.isApp || (config.tightBorder && !isMobileScreen);
+  const shouldTightBorder =
+    getClientConfig()?.isApp || (config.tightBorder && !isMobileScreen);
 
   useEffect(() => {
     loadAsyncGoogleFont();
@@ -163,6 +167,9 @@ function Screen() {
               <Route path={Path.Plugins} element={<Plugins />} />
               <Route path={Path.Chat} element={<Chat />} />
               <Route path={Path.Settings} element={<Settings />} />
+              <Route path={Path.Login} element={<Login />} />
+              <Route path={Path.History} element={<History />} />
+              <Route path={Path.Redeem} element={<Redeem />} />
             </Routes>
           </div>
         </>

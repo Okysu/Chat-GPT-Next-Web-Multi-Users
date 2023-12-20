@@ -7,8 +7,8 @@ const cn = {
   WIP: "该功能仍在开发中……",
   Error: {
     Unauthorized: isApp
-      ? "检测到无效 API Key，请前往[设置](/#/settings)页检查 API Key 是否配置正确。"
-      : "访问密码不正确或为空，请前往[登录](/#/auth)页输入正确的访问密码，或者在[设置](/#/settings)页填入你自己的 OpenAI API Key。",
+      ? "检测到无效 API Key，请前往[设置](/#/settings)页检查 API Key 是否配置正确"
+      : "访问密码不正确或为空，请前往[登录](/#/auth)页输入正确的访问密码，或在[登录/注册](/#/login)进行登录注册。",
   },
   Auth: {
     Title: "需要密码",
@@ -20,6 +20,22 @@ const cn = {
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} 条对话`,
+  },
+  User: {
+    Recharge: "充值",
+    History: "历史",
+    RedeemCode: "兑换",
+    Login: "登录/注册",
+    Logout: "注销",
+    SendCode: "发送验证码",
+    RedeemSuccess: "兑换成功",
+    RedeemFailed: "兑换失败",
+    RedeemConfirm: "确认兑换？",
+  },
+  Wallet: {
+    Tips: "使用GPT4系列模型每30积分一次，使用插件会额外消耗3积分。",
+    History: "历史记录只展现最新10条数据。",
+    Left: "剩余积分",
   },
   Chat: {
     SubTitle: (count: number) => `共 ${count} 条对话`,

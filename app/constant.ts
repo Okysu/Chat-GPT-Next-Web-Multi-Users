@@ -20,6 +20,9 @@ export enum Path {
   Masks = "/masks",
   Plugins = "/plugins",
   Auth = "/auth",
+  Login = "/login",
+  History = "/history",
+  Redeem = "/redeem",
 }
 
 export enum ApiPath {
@@ -54,7 +57,7 @@ export const MAX_SIDEBAR_WIDTH = 500;
 export const MIN_SIDEBAR_WIDTH = 230;
 export const NARROW_SIDEBAR_WIDTH = 100;
 
-export const ACCESS_CODE_PREFIX = "nk-";
+export const ACCESS_CODE_PREFIX = "okysu-";
 
 export const LAST_INPUT_KEY = "last-input";
 export const LAST_INPUT_IMAGE_KEY = "last-input-image";

@@ -778,9 +778,9 @@ function _Chat() {
       return;
     }
     setIsLoading(true);
-    chatStore
-      .onUserInput(userInput, userImage?.fileUrl)
-      .then(() => setIsLoading(false));
+    chatStore.onUserInput(userInput, userImage?.fileUrl).then(() => {
+      setIsLoading(false);
+    });
     localStorage.setItem(LAST_INPUT_KEY, userInput);
     localStorage.setItem(LAST_INPUT_IMAGE_KEY, userImage);
     setUserInput("");

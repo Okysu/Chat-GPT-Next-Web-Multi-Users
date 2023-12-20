@@ -38,6 +38,7 @@ export const getBuildConfig = () => {
     ...commitInfo,
     buildMode,
     isApp,
+    multipleUserMode: !!process.env.MONGODB_URI,
   };
 };
 

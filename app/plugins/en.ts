@@ -44,28 +44,28 @@ export const EN_PLUGINS: BuiltinPlugin[] = [
     enable: false,
     onlyNodeRuntime: false,
   },
-  {
-    name: "DALL·E",
-    toolName: "dalle_image_generator",
-    lang: "en",
-    description:
-      "DALL·E 2 is an AI system that can create realistic images and art from a description in natural language. Using this plugin requires configuring Cloudflare R2 object storage service.",
-    builtin: true,
-    createdAt: 1694703673000,
-    enable: false,
-    onlyNodeRuntime: false,
-  },
-  {
-    name: "Stable Diffusion",
-    toolName: "stable_diffusion_image_generator",
-    lang: "en",
-    description:
-      "Stable Diffusion text-to-image model. Using this plugin requires configuring Cloudflare R2 object storage service and stable-diffusion-webui API.",
-    builtin: true,
-    createdAt: 1688899480510,
-    enable: false,
-    onlyNodeRuntime: false,
-  },
+  // {
+  //   name: "DALL·E",
+  //   toolName: "dalle_image_generator",
+  //   lang: "en",
+  //   description:
+  //     "DALL·E 2 is an AI system that can create realistic images and art from a description in natural language. Using this plugin requires configuring Cloudflare R2 object storage service.",
+  //   builtin: true,
+  //   createdAt: 1694703673000,
+  //   enable: false,
+  //   onlyNodeRuntime: false,
+  // },
+  // {
+  //   name: "Stable Diffusion",
+  //   toolName: "stable_diffusion_image_generator",
+  //   lang: "en",
+  //   description:
+  //     "Stable Diffusion text-to-image model. Using this plugin requires configuring Cloudflare R2 object storage service and stable-diffusion-webui API.",
+  //   builtin: true,
+  //   createdAt: 1688899480510,
+  //   enable: false,
+  //   onlyNodeRuntime: false,
+  // },
   {
     name: "Arxiv",
     toolName: "arxiv",

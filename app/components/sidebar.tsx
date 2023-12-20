@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 
 import styles from "./home.module.scss";
 
@@ -15,7 +15,12 @@ import DragIcon from "../icons/drag.svg";
 
 import Locale from "../locales";
 
-import { useAppConfig, useChatStore } from "../store";
+import {
+  useAccessStore,
+  useAppConfig,
+  useChatStore,
+  useUserConfig,
+} from "../store";
 
 import {
   DEFAULT_SIDEBAR_WIDTH,
@@ -30,10 +35,33 @@ import { Link, useNavigate } from "react-router-dom";
 import { isIOS, useMobileScreen } from "../utils";
 import dynamic from "next/dynamic";
 import { showConfirm, showToast } from "./ui-lib";
+import { Avatar } from "./emoji";
+import { getClientConfig } from "../config/client";
+
+const multipleUserMode = getClientConfig()?.multipleUserMode;
+const setedAccessCode = useAccessStore.getState().accessCode;
+
+const displayUser = multipleUserMode && !setedAccessCode;
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
 });
+
+function truncate(str: string, length: number, suffix: string = "...") {
+  if (str.length <= length) return str;
+  return str.slice(0, length) + suffix;
+}
+
+async function getWalletLeft() {
+  const token = useUserConfig.getState().token;
+  return await fetch("/api/user/wallet", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+}
 
 function useHotKey() {
   const chatStore = useChatStore();
@@ -130,6 +158,32 @@ function useDragSideBar() {
 
 export function SideBar(props: { className?: string }) {
   const chatStore = useChatStore();
+  const userStore = useUserConfig();
+
+  const [walletLeft, setWalletLeft] = useState(0);
+
+  const getWallet = () => {
+    getWalletLeft().then(async (res) => {
+      if (res.status === 200) {
+        res.json().then((res) => {
+          setWalletLeft(res.left);
+        });
+      } else {
+        showToast((await res.json()).message);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (userStore.isUserLoggedIn()) {
+      getWallet();
+    }
+    window.onmessage = (e) => {
+      if (e.data.type === "chat-input") {
+        getWallet();
+      }
+    };
+  }, [userStore.user]);
 
   // drag side bar
   const { onDragStart, shouldNarrow } = useDragSideBar();
@@ -155,11 +209,9 @@ export function SideBar(props: { className?: string }) {
     >
       <div className={styles["sidebar-header"]} data-tauri-drag-region>
         <div className={styles["sidebar-title"]} data-tauri-drag-region>
-          ChatGPT Next
+          ChatGPT Next Web
         </div>
-        <div className={styles["sidebar-sub-title"]}>
-          Build your own AI assistant.
-        </div>
+        <div className={styles["sidebar-sub-title"]}>For fun via AI.</div>
         <div className={styles["sidebar-logo"] + " no-dark"}>
           <ChatGptIcon />
         </div>
@@ -198,6 +250,64 @@ export function SideBar(props: { className?: string }) {
       >
         <ChatList narrow={shouldNarrow} />
       </div>
+
+      {displayUser && config && (
+        <div
+          className={styles["sidebar-user"]}
+          style={{
+            padding: shouldNarrow ? "4px" : "10px 14px",
+            justifyContent: shouldNarrow ? "center" : "unset",
+            transition: isMobileScreen && isIOSMobile ? "none" : undefined,
+          }}
+        >
+          <Avatar size={24} avatar={config.avatar} />
+          {!shouldNarrow &&
+            (userStore.isUserLoggedIn() ? (
+              <div className={styles["sidebar-user-info"]}>
+                <div
+                  className={styles["sidebar-user-badge"]}
+                  style={{
+                    backgroundColor: walletLeft > 0 ? "#2ecc71" : "#e74c3c",
+                  }}
+                  onClick={() => {
+                    getWallet();
+                  }}
+                >
+                  {walletLeft}
+                </div>
+                <div className={styles["sidebar-user-name"]}>
+                  {userStore.user?.email
+                    ? truncate(userStore.user.email, 10)
+                    : "未登录"}
+                </div>
+                <div className={styles["sidebar-user-status"]}>
+                  <Link to={Path.History}>{Locale.User.History}</Link>
+                  <Link to={Path.Redeem}>{Locale.User.RedeemCode}</Link>
+                  <Link
+                    to="#"
+                    onClick={() => {
+                      showConfirm(Locale.User.Logout + "?").then((res) => {
+                        if (res) {
+                          userStore.clearUser();
+                          window.location.reload();
+                        }
+                      });
+                    }}
+                  >
+                    {Locale.User.Logout}
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className={styles["sidebar-user-info"]}>
+                <div className={styles["sidebar-user-name"]}>未登录</div>
+                <div className={styles["sidebar-user-status"]}>
+                  <Link to={Path.Login}>{Locale.User.Login}</Link>
+                </div>
+              </div>
+            ))}
+        </div>
+      )}
 
       <div className={styles["sidebar-tail"]}>
         <div className={styles["sidebar-actions"]}>

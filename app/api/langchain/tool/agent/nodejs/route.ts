@@ -11,7 +11,7 @@ async function handle(req: NextRequest) {
     return NextResponse.json({ body: "OK" }, { status: 200 });
   }
   try {
-    const authResult = auth(req);
+    const authResult = await auth(req);
     if (authResult.error) {
       return NextResponse.json(authResult, {
         status: 401,
@@ -71,7 +71,13 @@ async function handle(req: NextRequest) {
     var edgeTools = await edgeTool.getCustomTools();
     var nodejsTools = await nodejsTool.getCustomTools();
     var tools = [...edgeTools, ...nodejsTools];
-    return await agentApi.getApiHandler(req, reqBody, tools);
+    return await agentApi.getApiHandler(
+      req,
+      reqBody,
+      tools,
+      authResult.loginMode,
+      authResult.accessCode,
+    );
   } catch (e) {
     return new Response(JSON.stringify({ error: (e as any).message }), {
       status: 500,

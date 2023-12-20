@@ -205,12 +205,12 @@
   cursor: pointer;
 }
 
-.chat-item:hover > .chat-item-delete {
+.chat-item:hover>.chat-item-delete {
   opacity: 0.5;
   transform: translateX(-4px);
 }
 
-.chat-item:hover > .chat-item-delete:hover {
+.chat-item:hover>.chat-item-delete:hover {
   opacity: 1;
 }
 
@@ -231,10 +231,12 @@
 }
 
 .narrow-sidebar {
+
   .sidebar-title,
   .sidebar-sub-title {
     display: none;
   }
+
   .sidebar-logo {
     position: relative;
     display: flex;
@@ -310,6 +312,97 @@
       }
     }
   }
+}
+
+.sidebar-user {
+  padding: 10px 14px;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+  border: 2px solid transparent;
+  position: relative;
+  content-visibility: auto;
+  display: flex;
+}
+
+.sidebar-user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 20px;
+  width: calc(100% - 20px);
+}
+
+
+.sidebar-user-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.sidebar-user-status {
+  font-size: 12px;
+  color: var(--black);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  a {
+    padding: 0 4px;
+    border-radius: 4px;
+    color: var(--white);
+    text-decoration: none;
+    background-color: var(--black);
+    transition: all ease 0.3s;
+
+    &:hover {
+      background-color: var(--white);
+      color: var(--black);
+    }
+  }
+}
+
+.sidebar-user-badge{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  padding: 0 6px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: var(--black);
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+
+.sidebar-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: opacity ease 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.sidebar-user-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .sidebar-tail {

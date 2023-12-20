@@ -1,0 +1,91 @@
+.historyPage {
+  font-family: "Noto Sans", "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--gray);
+  color: var(--black);
+  height: 100vh;
+  overflow: auto;
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%;
+
+    .column {
+      flex-basis: 30%;
+      background-color: var(--white);
+      padding: 10px;
+      border-radius: 5px;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      h2 {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+
+      p {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .tableContainer {
+    overflow-x: auto;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    table-layout: auto;
+
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid var(--border-in-light);
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    th {
+      background-color: var(--white);
+      font-weight: bold;
+    }
+
+    .recharge {
+      background-color: var(--second);
+      transition: background-color 0.3s ease;
+    }
+
+    .consume {
+      background-color: var(--second);
+      transition: background-color 0.3s ease;
+    }
+
+    .recharge:hover,
+    .consume:hover {
+      background-color: var(--hover-color);
+    }
+
+    .recharge td:first-child,
+    .consume td:first-child {
+      color: green;
+    }
+
+    .consume td:first-child {
+      color: red;
+    }
+  }
+
+}

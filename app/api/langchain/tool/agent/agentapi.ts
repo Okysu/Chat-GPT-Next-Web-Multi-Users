@@ -16,6 +16,7 @@ import { DuckDuckGo } from "@/app/api/langchain-tools/duckduckgo_search";
 import { DynamicTool, Tool } from "langchain/tools";
 import { BaiduSearch } from "@/app/api/langchain-tools/baidu_search";
 import { GoogleSearch } from "@/app/api/langchain-tools/google_search";
+import connectDB from "@/app/api/mongodb";
 
 export interface RequestMessage {
   role: string;
@@ -177,6 +178,8 @@ export class AgentApi {
     req: NextRequest,
     reqBody: RequestBody,
     customTools: any[],
+    loginMode = false,
+    accessCode = "",
   ) {
     try {
       const serverConfig = getServerSideConfig();
@@ -306,7 +309,76 @@ export class AgentApi {
         },
         [handler],
       );
-
+      if (loginMode) {
+        const token = accessCode;
+        const conn = (await connectDB()).connection;
+        const user = await conn.collection("users").findOne({
+          token: token,
+        });
+        if (!user) {
+          return new Response(
+            JSON.stringify({ error: true, message: "token is invalid" }),
+            {
+              status: 401,
+              headers: { "Content-Type": "application/json" },
+            },
+          );
+        }
+        const now = Date.now();
+        const lastSigninAt = new Date(user.lastSigninAt).getTime();
+        if (now - lastSigninAt > 1000 * 60 * 60 * 24 * 30) {
+          return new Response(
+            JSON.stringify({ error: true, message: "token expired" }),
+            {
+              status: 500,
+              headers: { "Content-Type": "application/json" },
+            },
+          );
+        }
+        const { gpt3_base, gpt4_base } = user;
+        // get the user all wallets
+        const wallets = await conn
+          .collection("wallets")
+          .find({
+            userId: user._id,
+          })
+          .toArray();
+        let left = 0;
+        wallets.forEach((wallet) => {
+          if (wallet.type === 1) {
+            left += wallet.amount;
+          } else if (wallet.type === 2) {
+            left -= wallet.amount;
+          }
+        });
+        left = Math.round(left * 100) / 100;
+        console.log("[User Left] ", left);
+        const modelName: string = reqBody.model;
+        console.log("[Model Name] ", modelName);
+        const isGPT4 = modelName.includes("gpt-4");
+        const base = isGPT4 ? gpt4_base * 30 : gpt3_base;
+        if (left < base) {
+          return new Response(
+            JSON.stringify({
+              error: true,
+              message: "your balance is not enough",
+            }),
+            {
+              status: 402,
+              headers: { "Content-Type": "application/json" },
+            },
+          );
+        }
+        // update usage
+        await conn.collection("wallets").insertOne({
+          userId: user._id,
+          amount: Math.round((base + 3) * 100) / 100,
+          type: 2,
+          description: `use ${modelName} and tool(s) to chat, cost ${base}`,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        });
+      }
       console.log("returning response");
       return new Response(this.transformStream.readable, {
         headers: { "Content-Type": "text/event-stream" },

@@ -55,6 +55,7 @@ async function handle(req: NextRequest) {
         .find({
           userId: user._id,
         })
+        .sort({ createdAt: -1 })
         .toArray();
       let left = 0;
       wallets.forEach((wallet) => {
@@ -129,6 +130,7 @@ async function handle(req: NextRequest) {
         userId: user._id,
         type: 1,
         amount: redeemCode.amount,
+        description: "redeem code",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });

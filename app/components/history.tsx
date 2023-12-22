@@ -6,7 +6,7 @@ import { showToast } from "./ui-lib";
 
 async function getWalletLeft() {
   const token = useUserConfig.getState().token;
-  return await fetch("/api/user/wallet", {
+  return await fetch("/api/user/wallet?t=" + Date.now(), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

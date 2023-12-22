@@ -20,7 +20,8 @@ async function handle(req: NextRequest) {
       );
     } else if (req.method === "POST") {
       // get username and password
-      const { email, password, code } = await req.json();
+      let { email, password, code } = await req.json();
+      email = (email as string).toString();
       if (!email || !password || !code) {
         return NextResponse.json(
           {

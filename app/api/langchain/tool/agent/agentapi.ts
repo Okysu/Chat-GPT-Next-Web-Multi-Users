@@ -219,8 +219,13 @@ export class AgentApi {
         }
       }
       if (process.env.BING_SEARCH_API_KEY) {
+        const params: Record<string, string> = {};
+        if (process.env.BING_SEARCH_MARKET) {
+          params["mkt"] = process.env.BING_SEARCH_MARKET;
+        }
         let bingSearchTool = new langchainTools["BingSerpAPI"](
           process.env.BING_SEARCH_API_KEY,
+          params,
         );
         searchTool = new DynamicTool({
           name: "bing_search",
